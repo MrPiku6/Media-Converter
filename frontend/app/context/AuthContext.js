@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await api.post('/api/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
-      api.defaults.headers.Authorization = `Bearer ${res.data.token}`;
       setUser(res.data.user);
       toast.success('Login Successful!');
       router.push('/tool');
@@ -48,7 +47,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await api.post('/api/auth/register', { email, password });
       localStorage.setItem('token', res.data.token);
-      api.defaults.headers.Authorization = `Bearer ${res.data.token}`;
       setUser(res.data.user);
       toast.success('Signup Successful!');
       router.push('/tool');
@@ -60,13 +58,12 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
-    delete api.defaults.headers.Authorization;
     setUser(null);
     toast.success('Logged out successfully');
     router.push('/login');
   };
 
-  const value = { user, loading, login, signup, logout, isAuthenticated: !!user, setUser };
+  const value = { user, loading, login, signup, logout, isAuthenticated: !!user };
 
   return (
     <AuthContext.Provider value={value}>
