@@ -1,23 +1,17 @@
 'use client';
-
 import Link from 'next/link';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 export default function LandingPage() {
     const { isAuthenticated, loading } = useAuth();
     const router = useRouter();
-    
-    useEffect(() => {
-        if (!loading && isAuthenticated) {
-            router.push('/tool');
-        }
-    }, [isAuthenticated, loading, router]);
 
+    if(loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>
 
-    if (loading || isAuthenticated) {
-        return <div className="min-h-screen flex items-center justify-center text-white">Loading...</div>;
+    if(isAuthenticated) {
+        router.push('/tool');
+        return null; // Return null while redirecting
     }
 
     return (
