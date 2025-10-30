@@ -1,6 +1,5 @@
 'use client';
-
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/app/context/AuthContext';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -12,12 +11,10 @@ export default function SignUpPage() {
   const { signup, isAuthenticated } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push('/tool');
-    }
-  }, [isAuthenticated, router]);
-
+  if (isAuthenticated) {
+    router.push('/tool');
+    return null;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +24,9 @@ export default function SignUpPage() {
     setIsLoading(true);
     try {
       await signup(email, password);
+      // Redirect is handled inside the signup function
     } catch (error) {
+      // Error toast is handled inside the signup function
       setIsLoading(false);
     }
   };
