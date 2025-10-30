@@ -50,7 +50,8 @@ cronService.start();
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+// THIS IS THE CORRECTED LINE FOR RENDER DEPLOYMENT
+app.listen(PORT, '0.0.0.0', () => console.log(`Server started on port ${PORT}`));
 
 // A simple test route to check if the API is running
 app.get('/', (req, res) => {
